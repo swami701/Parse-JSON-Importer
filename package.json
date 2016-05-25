@@ -1,0 +1,20 @@
+{
+  "name": "exportimport",
+  "version": "1.0.0",
+  "description": "Importing data to parse using the json file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "parse",
+    "import",
+    "json"
+  ],
+  "author": "swami",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.13.4",
+    "parse": "^1.8.5"
+  }
+}
