@@ -40,4 +40,7 @@ jspm_packages
 #Run script
 run.sh
 
+# JSON file
+json
+
 # Created by .ignore support plugin (hsz.mobi)
