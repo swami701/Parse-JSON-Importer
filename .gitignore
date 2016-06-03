@@ -37,4 +37,7 @@ jspm_packages
 # ide folder
 .idea
 
+#Run script
+run.sh
+
 # Created by .ignore support plugin (hsz.mobi)

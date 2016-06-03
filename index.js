@@ -3,7 +3,7 @@ var app = express();
 var Parse = require('parse/node').Parse;
 
 if (typeof process.env.PORT === 'undefined' || typeof process.env.PARSE_APPID === 'undefined' ||
-  typeof process.env.PARSE_JSKEY === 'undefined' || typeof process.env.PARSE_CLASS === 'undefined') {
+  typeof process.env.PARSE_JSKEY === 'undefined' || typeof process.env.PARSE_CLASS === 'undefined' || typeof process.env.PARSE_EX_NAME === 'undefined') {
   console.error("Please set the env variables PORT, PARSE_APPID, PARSE_JSKEY, PARSE_CLASS");
 }
 
@@ -15,21 +15,25 @@ app.get('/', function (req, res) {
 app.get('/importparse', function (req, res) {
   console.log("Starting to import data to parse....");
   var json = require('./json/' + process.env.PARSE_CLASS + '.json');
+  var existingJson = require('./json/' + process.env.PARSE_EX_NAME + '.json');
   Parse.initialize(process.env.PARSE_APPID, process.env.PARSE_JSKEY);
   var parseObjs = json.results;
+  var existingObjs = existingJson.results;
   var objsToSave = [];
   for (var i = 0; i < parseObjs.length; i++) {
     var obj = parseObjs[i];
-    var ParseObj = Parse.Object.extend(process.env.PARSE_CLASS);
-    var parseObj = new ParseObj();
-    for (var key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        if (key !== 'objectId') {
-          parseObj.set(key, obj[key]);
+    if (existingObjs.hasOwnProperty(obj["objectId"])) {
+      var ParseObj = Parse.Object.extend(process.env.PARSE_CLASS);
+      var parseObj = new ParseObj();
+      for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          if (key !== 'objectId') {
+            parseObj.set(key, obj[key]);
+          }
         }
       }
+      objsToSave.push(parseObj);
     }
-    objsToSave.push(parseObj);
   }
   Parse.Object.saveAll(objsToSave).then(function () {
     res.send(objsToSave.length + " objects saved in parse");
