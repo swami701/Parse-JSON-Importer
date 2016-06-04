@@ -29,6 +29,8 @@ app.get('/importparse', function (req, res) {
         if (obj.hasOwnProperty(key)) {
           if (key !== 'objectId') {
             parseObj.set(key, obj[key]);
+          } else {
+            parseObj.set("oldEventId", obj[key]);
           }
         }
       }
